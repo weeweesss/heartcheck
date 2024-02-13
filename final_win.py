@@ -1,14 +1,13 @@
-# напиши здесь код третьего экрана приложенияfrom PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QPushButton, QLabel)
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit
 
-from instr.py import *  #загружаем переменные из файла instr.py
+from instr import *  #загружаем переменные из файла instr.py
 
 class FinalWin(QWidget):
     def __init__(self):
         super().__init__()
         self.set_appear() # устанавливает, как будет выглядеть окно
         self.initUI() # создаём и настраиваем графические элементы
-        self.connects() # устанавливает связи между элементами
         self.show()  # показываем окно
     def set_appear(self):
         self.setWindowTitle(txt_title)
@@ -21,8 +20,18 @@ class FinalWin(QWidget):
         self.layout.addWidget(self.index_text)
         self.layout.addWidget(self.workheart_text)
         self.setLayout(self.layout)
-    def connects(self):
-        self.btn_next.clicked.connect(self.next_click)
-app = QApplication([])
-mw = MainWin()
-app.exec()
+    def initUI(self):
+        ''' создает графические элементы '''
+        self.workh_text = QLabel(txt_workheart + self.results())
+        self.index_text = QLabel(txt_index + str(self.index))
+
+        self.layout_line = QVBoxLayout()
+        self.layout_line.addWidget(self.index_text, alignment = Qt.AlignCenter)
+        self.layout_line.addWidget(self.workh_text, alignment = Qt.AlignCenter)         
+        self.setLayout(self.layout_line)
+
+    ''' устанавливает, как будет выглядеть окно (надпись, размер, место) '''
+    def set_appear(self):
+        self.setWindowTitle(txt_finalwin)
+        self.resize(win_width, win_height)
+        self.move(win_x, win_y)
